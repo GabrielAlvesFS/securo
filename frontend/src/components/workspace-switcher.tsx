@@ -46,6 +46,7 @@ import {
   Fingerprint,
 } from 'lucide-react'
 import { CategoryIcon } from '@/components/category-icon'
+import { cn } from '@/lib/utils'
 import {
   WORKSPACE_KINDS,
   WORKSPACE_KIND_ICON,
@@ -85,6 +86,8 @@ interface AccountMenuProps {
   agentsEnabled: boolean
   /** True when local password/passkey auth is enabled. */
   localAuthEnabled: boolean
+  /** Render the trigger as a single icon, for the collapsed sidebar rail. */
+  collapsed?: boolean
 }
 
 /**
@@ -104,6 +107,7 @@ export function WorkspaceSwitcher({
   onUpdateAvailable,
   agentsEnabled,
   localAuthEnabled,
+  collapsed = false,
 }: AccountMenuProps) {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
@@ -151,23 +155,37 @@ export function WorkspaceSwitcher({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="flex items-center gap-3 w-full rounded-lg px-3 py-2.5 text-sm hover:bg-sidebar-accent transition-colors text-left">
+          <button
+            // Collapsed, the workspace icon is the whole trigger. The name
+            // and email would be an ellipsis at rail width, and the menu
+            // they open repeats both.
+            title={collapsed ? current.name : undefined}
+            aria-label={collapsed ? current.name : undefined}
+            className={cn(
+              'flex items-center w-full rounded-lg py-2.5 text-sm hover:bg-sidebar-accent transition-colors text-left',
+              collapsed ? 'justify-center px-0' : 'gap-3 px-3',
+            )}
+          >
             <CategoryIcon
               icon={workspaceIcon(current)}
               color={workspaceColor(current)}
               size="sm"
               className="shrink-0"
             />
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold truncate">{current.name}</p>
-              <p className="text-[10px] text-sidebar-muted/70 truncate">
-                {user.email}
-                {roleLabel && (
-                  <span className="ml-1 uppercase tracking-wide">· {roleLabel}</span>
-                )}
-              </p>
-            </div>
-            <ChevronsUpDown size={13} className="text-sidebar-muted/60 shrink-0" />
+            {!collapsed && (
+              <>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-semibold truncate">{current.name}</p>
+                  <p className="text-[10px] text-sidebar-muted/70 truncate">
+                    {user.email}
+                    {roleLabel && (
+                      <span className="ml-1 uppercase tracking-wide">· {roleLabel}</span>
+                    )}
+                  </p>
+                </div>
+                <ChevronsUpDown size={13} className="text-sidebar-muted/60 shrink-0" />
+              </>
+            )}
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-64" side="top">

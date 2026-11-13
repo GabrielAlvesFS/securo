@@ -126,7 +126,9 @@
     "groupAgents": "AI",
     "agents": "Agenci",
     "aiAgents": "Agenci AI",
-    "collections": "Kolekcje"
+    "collections": "Kolekcje",
+    "collapseSidebar": "Zwiń pasek boczny",
+    "expandSidebar": "Rozwiń pasek boczny"
   },
   "invoices": {
     "title": "Invoices",

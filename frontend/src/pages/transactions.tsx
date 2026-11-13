@@ -1806,7 +1806,7 @@ export default function TransactionsPage() {
           so the bar visually sits over the transactions list, not the
           full viewport. */}
       {viewMode === 'list' && selectedIds.size > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 lg:left-60 z-50">
+        <div className="fixed bottom-0 left-0 right-0 lg:left-[var(--sidebar-w)] z-50 transition-[left] duration-300 ease-out motion-reduce:transition-none">
         <div className="mx-auto max-w-7xl px-3 md:px-6 pb-4 md:pb-6">
           <div className="flex items-stretch gap-1.5 bg-card border border-border shadow-xl rounded-2xl p-2">
             <MobileBulkSelectionActions

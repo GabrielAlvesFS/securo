@@ -116,6 +116,21 @@
 }
 
 @layer base {
+  /* Sidebar width. Three elements depend on it — the sidebar itself, the main
+     column's left margin, and the fixed bulk-action bar on the transactions
+     page — and they must animate as one. A custom property keeps that single
+     source of truth in CSS instead of threading a number through props.
+
+     The collapsed value only applies from `lg` up: below that the sidebar is
+     an off-canvas drawer, and a 4rem drawer would be a rail nobody asked for. */
+  :root {
+    --sidebar-w: 15rem;
+  }
+  @media (min-width: 1024px) {
+    [data-sidebar-collapsed='true'] {
+      --sidebar-w: 4.25rem;
+    }
+  }
   * {
     @apply border-border outline-ring/50;
   }
